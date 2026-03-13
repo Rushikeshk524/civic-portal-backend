@@ -77,11 +77,17 @@ class AdminController extends Controller
     }
 
     public function stats(){
+        try {
         return response()->json([
             'total' => Complaint::count(),
             'pending' => Complaint::where('status', 'pending')->count(),
             'in_progress' => Complaint::where('status', 'in_progress')->count(),
             'resolved' => Complaint::where('status', 'resolved')->count(),
         ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
