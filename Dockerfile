@@ -42,7 +42,7 @@ RUN a2enmod rewrite
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Expose port
-EXPOSE 8000
+EXPOSE 10000
 
 # Start command
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
