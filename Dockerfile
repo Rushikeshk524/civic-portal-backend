@@ -45,4 +45,4 @@ COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 EXPOSE 8000
 
 # Start command
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=$PORT
