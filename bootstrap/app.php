@@ -12,7 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->api(prepend: [
+            \Illuminate\Http\Middleware\HandleCors::class,
+        ]);
+
+        $middleware->trustHosts(at: [
+            'localhost',
+            'civic-portal-backend-ey7f.onrender.com',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
