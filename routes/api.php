@@ -20,6 +20,10 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::patch('/admin/complaints/{id}/status', [AdminController::class, 'updateStatus']);
     Route::get('/admin/stats', [AdminController::class, 'stats']);
 
+    Route::get('/categories', function() {
+        return \App\Models\Category::all();
+    });
+
 });
 
 
