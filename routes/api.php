@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\AdminController;
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -24,6 +25,19 @@ Route::middleware('auth:sanctum')->group(function (){
         return \App\Models\Category::all();
     });
 
+    Route::post('/locations', function(\Illuminate\Http\Request $request) {
+        $location = \App\Models\Location::firstOrCreate(
+            [
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+            ],
+            [
+                'area_name' => $request->area_name,
+                'pincode' => $request->pincode,
+            ]
+        );
+        return response()->json($location);
+    });
 });
 
 
