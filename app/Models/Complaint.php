@@ -9,11 +9,11 @@ class Complaint extends Model
     protected $primaryKey = 'complaint_id';
     protected $fillable = [
         'user_id', 'category_id', 'department_id',
-        'location_id', 'title', 'description', 'status'
+        'location_id', 'title', 'description', 'status',
     ];
 
     public function user(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
     }
     public function category(){
         return $this->belongsTo(Category::class, 'category_id', 'category_id');

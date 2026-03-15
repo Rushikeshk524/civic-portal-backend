@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Complaint;
-use App\Models\ComplaintStatusHistory;
 
 class ComplaintController extends Controller
 {
@@ -35,25 +34,25 @@ class ComplaintController extends Controller
             'status' => 'pending',
         ]);
 
-        if($request->image_url){
+        if ($request->image_url) {
             $complaint->images()->create([
                 'image_url' => $request->image_url
             ]);
         }
 
         return response()->json([
-            'message' => 'Complaint submitted sucessfully',
+            'message' => 'Complaint submitted successfully',
             'complaint' => $complaint->load('category', 'location', 'images')
         ], 201);
     }
 
-    public function show($id){
+    public function show($id) {
         $complaint = Complaint::where('complaint_id', $id)
             ->where('user_id', auth()->id())
-            ->with(['category', 'department', 'location', 'images', 'statusHIstory'])
+            ->with(['category', 'department', 'location', 'images'])
             ->first();
-        
-        if(!$complaint){
+
+        if (!$complaint) {
             return response()->json(['message' => 'Complaint not found'], 404);
         }
 

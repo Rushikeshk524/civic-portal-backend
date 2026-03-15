@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('complaints', function (Blueprint $table) {
-            $table->text('address')->nullable()->after('description');
-            $table->decimal('latitude', 10, 8)->nullable()->after('address');
-            $table->decimal('longitude', 11, 8)->nullable()->after('latitude');
+        Schema::table('complaints', function (Blueprint $table){
+            if (Schema::hasColumn('complaints', 'address')){
+                $table->dropColumn('address');
+            }
+            if (Schema::hasColumn('complaints', 'latitude')) {
+                $table->dropColumn('latitude');
+            }
+            if (Schema::hasColumn('complaints', 'longitude')) {
+                $table->dropColumn('longitude');
+            }
         });
     }
 
@@ -23,8 +29,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('complaints', function (Blueprint $table) {
-            $table->dropColumn(['address', 'latitude', 'longitude']);
+        Schema::table('compliants', function (Blueprint $table) {
+            $table->text('address')->nullable();
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
         });
     }
 };
