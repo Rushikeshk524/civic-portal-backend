@@ -90,5 +90,23 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
+    public function destroy($id) {
+        $complaint = Complaint::where('complaint_id', $id)->first();
+
+        if (!$complaint) {
+            return response()->json(['message' => 'Complaint not found'], 404);
+        };
+
+        //Delete related records first
+        $complaint->images()->delete();
+        $complaint->statusHistory()->delete();
+        $complaint->comments()->delete();
+        $complaint->likes()->delete();
+
+        $complaint->delete();
+
+        return response()->json(['message' => 'Complaint deleted successfully']);
+    }
     
 }
