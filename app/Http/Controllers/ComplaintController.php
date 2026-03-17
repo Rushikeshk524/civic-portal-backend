@@ -58,4 +58,27 @@ class ComplaintController extends Controller
 
         return response()->json($complaint);
     }
+
+    public function feed() {
+    $complaints = Complaint::with([
+        'category',
+        'department',
+        'location',
+        'images',
+        'user',
+        'comments.user',
+        'likes'
+    ])
+    ->latest()
+    ->get()
+    ->map(function($complaint) {
+        $complaint->likes_count    = $complaint->likes->count();
+        $complaint->comments_count = $complaint->comments->count();
+        $complaint->liked_by_me    = $complaint->likes
+            ->contains('user_id', auth()->id());
+        return $complaint;
+    });
+
+    return response()->json($complaints);
+    }
 }

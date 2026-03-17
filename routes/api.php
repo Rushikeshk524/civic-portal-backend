@@ -4,9 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+// Comments
+Route::get('/complaints/{id}/comments', [CommentController::class, 'index']);
+Route::post('/complaints/{id}/comments', [CommentController::class, 'store']);
+
+// Likes
+Route::post('/complaints/{id}/like', [LikeController::class, 'toggle']);
+Route::get('/complaints/{id}/likes', [LikeController::class, 'count']);
+
+// Feed — all complaints public feed
+Route::get('/feed', [ComplaintController::class, 'feed']);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::Post('/logout', [AuthController::class, 'logout']);
