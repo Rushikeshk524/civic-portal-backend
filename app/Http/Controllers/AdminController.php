@@ -8,9 +8,13 @@ use App\Models\ComplaintStatusHistory;
 class AdminController extends Controller
 {
     public function allComplaints(Request $request){
-        $complaints = Complaint::with(['user', 'category', 'department', 'location', 'images'])
-            ->latest()
-            ->get();
+        $query = Complaint::with(['user', 'category', 'department', 'location', 'images']);
+
+        if ($request->has('department_id') && $request->department_id != '') {
+            $query->where('department_id', $request->department_id);
+        }
+
+        $complaints = $query->latest()->get();
 
         return response()->json($complaints);
     }
