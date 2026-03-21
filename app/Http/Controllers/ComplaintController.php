@@ -8,10 +8,14 @@ use App\Models\Complaint;
 class ComplaintController extends Controller
 {
     public function index(Request $request) {
-        $complaints = Complaint::where('user_id', auth()->id())
-            ->with(['category', 'department', 'location', 'images'])
-            ->latest()
-            ->get();
+        $query = Complaint::where('user_id', auth()->id())
+            ->with(['category', 'department', 'location', 'images']);
+
+        if ($request->has('department_id') && $request->department_id != '') {
+            $query->where('department_id', $request->department_id);
+        }
+
+        $complaints = $query->latest()->get();
 
         return response()->json($complaints);
     }

@@ -42,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return \App\Models\Category::all();
     });
 
+    // Departments
+    Route::get('/departments', [\App\Http\Controllers\DepartmentController::class, 'index']);
+
     // Locations
     Route::post('/locations', function (\Illuminate\Http\Request $request) {
         $location = \App\Models\Location::firstOrCreate(
